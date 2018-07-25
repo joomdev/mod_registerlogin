@@ -1,99 +1,76 @@
 jQuery(document).ready(function() {	
 
 	jQuery(".view_").change(function() {
-		if(jQuery(this).val()  == 1) {								
-				//jQuery('#registration_').hide();
-			//	jQuery('#login_form').show();
+		if(jQuery(this).val()  == 1) {
 				jQuery('#login_form input#openview').val(jQuery(this).val());
-				
-			}else if (jQuery(this).val() ==2){							
-				//jQuery('#login_form').hide();
-			//	jQuery('#registration_').show();				
+			}else if (jQuery(this).val() ==2){
 				jQuery('#registration_ input#openview').val(jQuery(this).val());
 			}
-	});	
-	
-	
-	
+	});
 	jQuery("#registration_form").validate({
 		rules: {recaptcha_response_field: "required"},
 		errorPlacement: function(error, element) {
 		if (element.attr("name") == "recaptcha_response_field") {
 		  error.insertAfter("#registration_form #recaptcha_area");
 		} else if(element.attr("name") == "terms"){
-			error.insertAfter("#registration_form #terms_");	
+			error.insertAfter("#registration_form #terms_");
 		} else {
 		  error.insertAfter(element);
 		}
-		
 	  },
-		submitHandler: function() {			
-			var submit = jQuery('#register_submit');				 
+		submitHandler: function() {
+			var submit = jQuery('#register_submit');
 				jQuery.ajax({
-					url: 'index.php?option=com_ajax&module=registerlogin&method=getuserregister&Itemid='+itemId+'&format=json',
+					url: 'index.php?option=com_ajax&module=registerlogin&method=getUserRegister&Itemid='+itemId+'&format=json',
 					type: 'POST',
 					data: jQuery('#registration_form').serialize(),
 					async:true,
-					beforeSend: function() {				
+					beforeSend: function(){
 						submit.attr('disabled', true);
 						jQuery('.regload').show();
 					},
 					success: function(data) {
 						jQuery('.regload').hide();
 						submit.removeAttr('disabled');
-						var obj = jQuery.parseJSON(data);
-						if(obj.success){						
-							jQuery('#error_message').html(obj.message);
-							jQuery('form#registration_form input').val('');	
+						if(data){
 							jQuery('form#registration_form input#register_submit').val('Register'); 
-						}else{							
-							jQuery('#error_message').html(obj.message);
+						}
+						if(data == "captcha incorrect"){
+							jQuery('#error_message1').html("Captcha incorrect , please enter valid value");
+							jQuery('#error_message1').css("padding","15px");
+							jQuery('#error_message1').css("background","#f2dede");
+                            jQuery('#error_message1').css("color","#a94442");
+                            jQuery('#error_message1').css("display","inline-block");
+						}else if(data == "The username you entered is not available. Please pick another username."){
+							jQuery('#error_message1').html(data);
+						    jQuery('#error_message1').css("padding","15px");
+							jQuery('#error_message1').css("background","#f2dede");
+                            jQuery('#error_message1').css("color","#a94442");
+                            jQuery('#error_message1').css("display","inline-block");
+						}else if(data == "This email address is already registered."){
+							jQuery('#error_message1').html(data);
+							jQuery('#error_message1').css("padding","15px");
+							jQuery('#error_message1').css("background","#f2dede");
+                            jQuery('#error_message1').css("color","#a94442");
+                            jQuery('#error_message1').css("display","inline-block");
+						}else {
+							jQuery('form#registration_form input').val('');	
+							jQuery('#error_message1').html(data);
+				            jQuery('#error_message1').css("padding","15px");
+							jQuery('#error_message1').css("background","#dff0d8");
+                            jQuery('#error_message1').css("color","#3c763d");	
+                            jQuery('#error_message1').css("display","inline-block");	
 						}
 					},
 					error: function(e) {
+						alert("error");
 						jQuery('.regload').hide();
 						submit.removeAttr('disabled');
 						console.log(e);
 					}
 				});
 			
-		return false;		
+		return false;
         }
-	});
-	
-	jQuery("#login-form").validate({});
-	/* jQuery("#login-form").validate({		  
-		submitHandler: function() {
-			var submit = jQuery('#submit');
-			jQuery('#laodingdiv').show();
-			jQuery.ajax({
-					url: 'index.php?option=com_ajax&module=registerlogin&method=getuserlogin&format=json',
-					type: 'POST',
-					data: jQuery("#login-form").serialize(),
-					async:false,
-					beforeSend: function() {				
-						jQuery('#laodingdiv').show();
-						submit.attr('disabled', true);
-						
-					},
-					success: function(data) {
-						jQuery('#laodingdiv').hide();
-						submit.removeAttr('disabled');
-						var obj = jQuery.parseJSON(data);
-						if(obj.success){
-							location.reload(true);
-							jQuery('#error_message').html(obj.message);
-						}else{
-							jQuery('#error_message').html(obj.message);
-						}
-					},
-					error: function(e) {
-						jQuery('#laodingdiv').hide();
-						submit.removeAttr('disabled');
-						console.log(e);
-					}
-				});
-			return false;		
-        }
-	}); */	
+	});	
 });
