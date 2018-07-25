@@ -4,7 +4,7 @@
  * @subpackage  mod_loginregister
  * @author		www.joomdev.com
  * @author		Created on March 2016
- * @copyright	Copyright (C) 2009 - 2016 www.joomdev.com. All rights reserved.
+ * @copyright	Copyright (C) 2009 - 2018 www.joomdev.com. All rights reserved.
  * @license		GNU GPL2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;

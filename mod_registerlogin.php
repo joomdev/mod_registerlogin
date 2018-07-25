@@ -19,11 +19,11 @@ $layout = $params->get('layout', 'default');
 $app    = JFactory::getApplication();
 $type	= modRegisterLoginHelper::getType();
 $return	= modRegisterLoginHelper::getReturnURL($params, $type);
-
+$jinput = $app->input->get;
 // user register
 $mName 	= 'module'.$module->id;
 $errorMessage = '';
-if(JRequest::getVar($mName) == 'register'){
+if($jinput->get($mName) == 'register'){
 	$registerResponse = modRegisterLoginHelper::getUserRegister($params);
 	if($registerResponse['error']){
 	$errorMessage  = $registerResponse['error_message'];
@@ -55,7 +55,7 @@ if(JRequest::getVar($mName) == 'register'){
 //user login
 $loginResponse = '';
 $mName = 'module'.$module->id;
-if(JRequest::getVar($mName) == 'login'){
+if($jinput->get($mName) == 'login'){
 	$loginResponse = modRegisterLoginHelper::getUserlogin($params);
 	if(!$loginResponse['error']){
 	if($params->get('login')){

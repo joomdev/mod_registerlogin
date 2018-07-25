@@ -4,7 +4,7 @@
  * @subpackage  mod_loginregister
  * @author		www.joomdev.com
  * @author		Created on March 2016
- * @copyright	Copyright (C) 2009 - 2016 www.joomdev.com. All rights reserved.
+ * @copyright	Copyright (C) 2009 - 2018 www.joomdev.com. All rights reserved.
  * @license		GNU GPL2 or later; see LICENSE.txt
  */
 
@@ -21,9 +21,9 @@ $view  = (isset($_REQUEST['openview']) && !empty($_REQUEST['openview'])) ? $_REQ
 $layout =  $params->get('view1');
 
 $document->addScript(JURI::root() .'modules/mod_registerlogin/tmpl/assets/jquery.validate.js');
-if($params->get('ajax_registration'))
-{
-	$document->addScript(JURI::root() .'modules/mod_registerlogin/tmpl/assets/registerloginajax.js');	
+$document->addScript("https://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js");
+if($params->get('ajax_registration')){
+	$document->addScript(JURI::root() .'modules/mod_registerlogin/tmpl/assets/registerloginajax.js'); 
 }
 else{
 	$document->addScript(JURI::root() .'modules/mod_registerlogin/tmpl/assets/registerlogin.js');
@@ -31,461 +31,142 @@ else{
 $usersConfig = JComponentHelper::getParams( 'com_users' );
 $siteKey = $params->get('sitekey');
 $secret = $params->get('secretkey');
-
-// reCAPTCHA supported 40+ languages
 $lang = 'en';
 ?>
-<link href="<?php echo JURI::root() .'modules/mod_registerlogin/tmpl/assets/registerlogin.css' ?>"  type="text/css" rel="stylesheet"/>
+<link href="<?php echo JURI::root() .'modules/mod_registerlogin/tmpl/assets/style.css' ?>" type="text/css" rel="stylesheet"/>
 <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=<?php echo $lang; ?>"></script>
 <div id="error_message1">
 	<?php if($errorMessage){ ?>
 		<div class="alert alert-error"><a data-dismiss="alert" class="close">x</a><div><p><?php echo $errorMessage; ?></p></div></div>
 	<?php } ?>
 </div>
-<script type="text/javascript">
- function ShowHideDiv() {
-        var chkYes = document.getElementById("register_view");
-        var registration = document.getElementById("registration");
-		var login_form = document.getElementById("login_form");
-        login_form.style.display = chkYes.checked ? "none" : "none";
-        registration.style.display = chkYes.checked ? "block" : "none";
-    }  
-function ShowHideDiv1() {
-        var chkYes = document.getElementById("login_view");
-        var registration = document.getElementById("registration");
-        var login_form = document.getElementById("login_form");
-        login_form.style.display = chkYes.checked ? "block" : "none";
-        registration.style.display = chkYes.checked ? "none" : "none";
-    }
-window.onload =	 function ShowHideDiv1() {
-        var chkYes = document.getElementById("login_view");
-        var registration = document.getElementById("registration");
-        var login_form = document.getElementById("login_form");
-        login_form.style.display = chkYes.checked ? "block" : "none";
- 
-        var chkYes1 = document.getElementById("register_view");
-        var registration = document.getElementById("registration");
-		var login_form = document.getElementById("login_form");
-        registration.style.display = chkYes1.checked ? "block" : "none";  
- }
-</script>
-<?php if(isset($layout ) && $layout  == 1){ ?>
-<div class="">
-	 <ul class="nav nav-pills">
-	  <li class="padtxt"><input class="view_ " type="radio" value="1" <?php echo (isset($view) && $view  == 1) ? 'checked="checked"' : ''; ?>  onclick="ShowHideDiv1();" name="view" id="login_view" /></li>
-	  <li class="padtxt"><label class="showtxt" for="login_view"><?php echo JText::_('MOD_REGISTERLOGIN_LOGINLEBEL'); ?></label></li>
-	  <li class="padtxt"><input  class="view_"  <?php echo (isset($view ) && $view  == 2) ? 'checked="checked"' : '' ?> onclick="ShowHideDiv();" type="radio" value="2" name="view" id="register_view" /></li>
-	  <li class="padtxt"><label class="showtxt" for="register_view"><?php echo JText::_('MOD_REGISTERLOGIN_REGISTERLEBEL'); ?></label></li>
-	</ul>
-<div class="login_form" id="login_form" style="display:none;">
-	<form action="" method="post" id="login-form" name="josForm" class="form-validate form-horizontal">
-		<div class="control-group">
-			<?php if ($params->get('usetext')) : ?>
-				<div class="control-label">
-					<span class="text"><label id="namemsg" for="username"><?php echo JText::_('COM_USERS_LOGIN_USERNAME_LABEL'); ?>*</label></span>
-				</div>
-			<?php endif; ?>
-			<div class="controls">
-				<div class="input-prepend">
-					<span class="add-on">
-						<span class="icon-user tip" title="User Name"></span>
-					</span>
-					<input id="modlgn-username" type="text" name="username" class="input-medium required" value="<?php echo (isset($_REQUEST['username']) && !empty($_REQUEST['username'])) ? $_REQUEST['username'] : ''; ?>" tabindex="0" size="18" placeholder="<?php echo JText::_('COM_USERS_LOGIN_USERNAME_LABEL') ?>" required/>
-				</div>
-			</div>
-		</div>			
-		<div class="control-group">
-			<?php if ($params->get('usetext')) : ?>
-				<div class="control-label">
-					<span class="text"><label id="namemsg" for="password"><?php echo JText::_('COM_USERS_PROFILE_PASSWORD1_LABEL'); ?>*</label></span>
-				</div>
-			<?php endif; ?>
-			<div class="controls">
-				<div class="input-prepend">
-					<span class="add-on">
-						<span class="icon-lock tip" title="<?php echo JText::_('COM_USERS_PROFILE_PASSWORD1_LABEL') ?>"></span>
-					</span>
-					<input id="modlgn-passwd"  value="<?php echo (isset($_REQUEST['password']) && !empty($_REQUEST['password'])) ? $_REQUEST['password'] : ''; ?>" type="password" name="password" class="input-medium required" tabindex="0" size="18" placeholder="<?php echo JText::_('COM_USERS_PROFILE_PASSWORD1_LABEL') ?>" required/>
-				</div>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="controls">
-				<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
-				<div id="form-login-remember" class="control-group checkbox">
-					<label for="modlgn-remember"><input id="modlgn-remember" type="checkbox" name="remember" class="inputbox" value="yes"/><?php echo JText::_('COM_USERS_LOGIN_REMEMBER_ME') ?></label> 
-				</div>
-				<?php endif; ?>
-			</div>
-		</div>			
-		<div id="form-login-submit" class="control-group">
-			<div class="controls">
-				<input type="hidden" value="login" name="module<?php echo $module->id; ?>">				
-				<button type="submit" tabindex="0" id="submit" name="Submit" class="btn btn-primary btn"><?php echo JText::_('JLOGIN') ?></button><div id="laodingdiv" style="display:none"><img src="<?php echo JURI::root(); ?>/modules/mod_registerlogin/tmpl/assets/loader.gif"  /></div>
-				<input type="hidden" value="" name="openview" id="openview">
-				<?php echo JHtml::_('form.token'); ?>	
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="controls">
-				<ul class="unstyled">
-					<li>
-					<a href="<?php echo JRoute::_('index.php?option=com_users&view=remind'); ?>">
-					  <?php echo JText::_('COM_USERS_LOGIN_REMIND'); ?></a>
-					</li>
-					<li>
-					<a href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>"><?php echo JText::_('COM_USERS_LOGIN_RESET'); ?></a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</form>
-</div>
-<div class="registration_" id="registration" style="display:none;">
-	<form action="" method="post" id="registration_form" name="josForm" class="form-validate form-horizontal">
-			<div class="control-group">
-			<?php if ($params->get('usetext')) : ?>
-				<div class="control-label">
-					<span class="text"><label id="namemsg" for="name"><?php echo JText::_('COM_USERS_PROFILE_NAME_LABEL'); ?>*</label></span>
-				</div>
-			<?php endif; ?>
-			<div class="controls">
-				<div class="input-prepend">
-					<span class="add-on">
-						<span class="icon-user tip" title="<?php echo JText::_('COM_USERS_REGISTER_NAME_LABEL'); ?>"></span>
-					</span>
-					<input tabindex="1" placeholder="<?php echo JText::_('COM_USERS_REGISTER_NAME_LABEL'); ?>" type="text" name="jform[name]" id="jform_name" size="20" value="<?php echo (isset($_REQUEST['jform']['name']) && !empty($_REQUEST['jform']['name'])) ? $_REQUEST['jform']['name'] : ''; ?>" class="inputbox required" 
-					required/>
-				</div>
-			</div>
-			</div>					
-			<div class="control-group">
-				<?php if ($params->get('usetext')) { ?>
-					<div class="control-label">
-						<span class="text"><label id="usernamemsg" for="username"><?php echo JText::_('COM_USERS_REGISTER_USERNAME_LABEL'); ?>*</label></span>
-					</div>
-				<?php } ?>
-				<div class="controls">
-				<div class="input-prepend">
-				<span class="add-on">
-					<span class="icon-user tip" title="<?php echo JText::_('COM_USERS_REGISTER_USERNAME_LABEL'); ?>"></span>
-				</span>
-					<input tabindex="2" type="text" placeholder="<?php echo JText::_('COM_USERS_REGISTER_USERNAME_DESC'); ?>" id="jform_username" name="jform[username]" size="20" value="<?php echo (isset($_REQUEST['jform']['username']) && !empty($_REQUEST['jform']['username'])) ? $_REQUEST['jform']['username'] : ''; ?>" class="inputbox validate-username required" required/>
-				</div>
-				</div>
-			</div>
-			<div class="control-group">
-				<?php if ($params->get('usetext')) { ?>
-					<div class="control-label">
-						<span class="text"><label id="pwmsg" for="password"><?php echo JText::_('COM_USERS_REGISTER_PASSWORD1_LABEL'); ?>*</label></span>
-					</div>
-				<?php } ?>
-				<div class="controls">
-					<div class="input-prepend">
-					<span class="add-on">
-						<span class="icon-lock tip" title="<?php echo JText::_('COM_USERS_REGISTER_PASSWORD1_LABEL'); ?>"></span>
-					</span>
-						<input tabindex="3" placeholder="<?php echo JText::_('COM_USERS_REGISTER_PASSWORD1_LABEL'); ?>" class="inputbox validate-password required" type="password" id="jform_password1" name="jform[password1]" size="20" value="" required/>
-					</div>
-				</div>
-			</div>
-			<div class="control-group">
-				<?php if ($params->get('usetext')) { ?>
-					<div class="control-label">
-						<span class="text"><label id="pw2msg" for="password2"><?php echo JText::_('COM_USERS_REGISTER_PASSWORD2_LABEL'); ?>*</label></span>
-					</div>
-				<?php } ?>
-				<div class="controls">
-					<div class="input-prepend">
-					<span class="add-on">
-						<span class="icon-lock tip" title="<?php echo JText::_('COM_USERS_REGISTER_PASSWORD2_DESC'); ?>"></span>
-					</span>
-						<input tabindex="4"  placeholder="<?php echo JText::_('COM_USERS_REGISTER_PASSWORD2_DESC'); ?>"   data-rule-equalTo="#jform_password1"  class="inputbox validate-password required" type="password" id="jform_password2" name="jform[password2]" size="20" value=""  required/>
-					</div>
-				</div>
-			</div>
-			<div class="control-group">
-				<?php if ($params->get('usetext')) { ?>
-					<div class="control-label">
-						<span class="text"><label id="emailmsg" for="email"><?php echo JText::_('COM_USERS_REGISTER_EMAIL1_LABEL'); ?>*</label></span>
-					</div>
-				<?php } ?>
-				<div class="controls">
-					<div class="input-prepend">
-					<span class="add-on">
-						<span class="icon-envelope tip" title="Email"></span>
-					</span>
-						<input tabindex="5"   placeholder="<?php echo JText::_('COM_USERS_REGISTER_EMAIL1_DESC'); ?>"  type="email" id="jform_email1" name="jform[email1]" size="20" value="<?php echo (isset($_REQUEST['jform']['email1']) && !empty($_REQUEST['jform']['email1'])) ? $_REQUEST['jform']['email1'] : ''; ?>" class="inputbox validate-email required email" required/>
-					</div>
-				</div>
-			</div>
-			<div class="control-group">
-				<?php if ($params->get('usetext')) { ?>
-					<div class="control-label">
-						<span class="text"><label id="email2msg" for="email2"><?php echo JText::_('COM_USERS_REGISTER_EMAIL2_LABEL'); ?>*</label></span>
-					</div>
-				<?php } ?>				
-				<div class="controls">
-					<div class="input-prepend">
-					<span class="add-on">
-						<span class="icon-envelope tip" title="Verify Email"></span>
-					</span>
-						<input tabindex="6"  placeholder="<?php echo JText::_('COM_USERS_REGISTER_EMAIL2_DESC'); ?>" type="email" id="jform_email2" name="jform[email2]" size="20" value="<?php echo (isset($_REQUEST['jform']['email2']) && !empty($_REQUEST['jform']['email2'])) ? $_REQUEST['jform']['email2'] : ''; ?>" class="inputbox required email" data-rule-equalTo="#jform_email1" required/>
-					</div>
-				</div>
-			</div>	
-			<?php if ($params->get('enablecap_on_register')) { ?>
-				<div class="control-group">
-					<?php if ($params->get('usetext')) { ?>
-						<div class="control-label">
-							<span class="text"><label id="captcha" for="captcha"><?php echo JText::_('COM_USERS_CAPTCHA_LABEL'); ?>*</label></span>
-						</div>
-					<?php } ?>			
-					<div class="controls">
-					<?php
-						if($siteKey){ ?>
-							 <div class="g-recaptcha" data-sitekey="<?php echo $siteKey; ?>"></div>  
-						<?php }
-						else{
-							JError::raiseWarning( 100, 'Please enter the ReCaptcha public and secret key' );
-						}
-					?>	          
-					</div>	
-				</div>	
-			<?php } ?>
-			<?php  if ($params->get('tou')) { ?>
-			<div class="control-group">
-				<div class="control-label">&nbsp;
-				</div>	
-				<div class="controls">
-					<?php if($params->get('newwindow') == 'modal'){  ?>
-						<input name="terms" class="required" type="checkbox" <?php if($params->get('checkbox')) { echo "checked='checked'"; } ?>  id="tou" required/> &nbsp 
-						<a class="modal" href="<?php echo JURI::root(); ?>index.php?option=com_content&view=article&id=<?php echo $params->get('articleid') ?>&tmpl=component"  rel="{handler:'iframe', size:{x:1000,y:700}}"><?php echo $params->get('title'); ?></a>
-					   
-					<?php } else {  ?>
-					<input name="terms" class="required" type="checkbox" <?php if($params->get('checkbox')) { echo "checked='checked'"; } ?>  id="tou" /> &nbsp	
-					<a id="terms_" href="<?php echo JURI::root(); ?>index.php?option=com_content&view=article&id=<?php echo $params->get('articleid') ?>" target="<?php echo $params->get('newwindow'); ?>"><?php echo $params->get('title'); ?></a>
-					<?php } ?>
-				</div>	
-			</div>		
-			<?php } ?>
-			<div class="control-group">
-				<div class="control-label">&nbsp;
-				</div>	
-				<div class="controls">
-					<button type="submit" id="register_submit"  name="Submit" class="btn btn-primary validate" /><?php echo JText::_('JREGISTER') ?><div class="regload" style="display:none"><img src="<?php echo JURI::root(); ?>/modules/mod_registerlogin/tmpl/assets/loader.gif"  /></div>
-					<input type="hidden" value="register" name="module<?php echo $module->id; ?>">
-					<input type="hidden" value="" name="openview" id="openview">
-					<?php echo JHTML::_('form.token'); ?>
-				</div>	
-			</div>
-	</form>
-</div>
-</div>
-<?php } ?>
-<?php if(isset($layout ) && $layout  == 2){ ?>
- <!--  Tab --->
-<div class="">
-	<ul class="nav nav-tabs">
-	  <li <?php echo (isset($view) && $view  == 1) ? 'class="active"' : ''; ?>><a data-toggle="tab" href="#home">Login</a></li>
-	  <li <?php echo (isset($view) && $view  == 2) ? 'class="active"' : ''; ?>><a data-toggle="tab" href="#menu1">Registration</a></li>
-	</ul>
-<div class="tab-content">
-<div id="home" class="tab-pane fade <?php echo (isset($view) && $view  == 1) ? 'in active' : ''; ?>">
-    <h3><?php echo JText::_('MOD_LOGIN_FORM'); ?>"></h3>
-	<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="login-form" name="josForm" class="form-validate form-horizontal">
-		<div class="control-group">
-			<?php if ($params->get('usetext')) : ?>
-				<div class="control-label">
-					<span class="text"><label id="namemsg" for="username"><?php echo JText::_('COM_USERS_LOGIN_USERNAME_LABEL'); ?>*</label></span>
-				</div>
-			<?php endif; ?>
-			<div class="controls">
-				<div class="input-prepend">
-					<span class="add-on">
-						<span class="icon-user tip" title="User Name"></span>
-					</span>
-					<input id="modlgn-username" type="text" name="username" class="input-medium required" value="<?php echo (isset($_REQUEST['username']) && !empty($_REQUEST['username'])) ? $_REQUEST['username'] : ''; ?>" tabindex="0" size="18" placeholder="<?php echo JText::_('COM_USERS_LOGIN_USERNAME_LABEL') ?>" required="true"/>
-				</div>
-			</div>
-		</div>
-		<div class="control-group">
-			<?php if ($params->get('usetext')) : ?>
-				<div class="control-label">
-					<span class="text"><label id="namemsg" for="password"><?php echo JText::_('COM_USERS_PROFILE_PASSWORD1_LABEL'); ?>*</label></span>
-				</div>
-			<?php endif; ?>
-			<div class="controls">
-				<div class="input-prepend">
-					<span class="add-on">
-						<span class="icon-lock tip" title="<?php echo JText::_('COM_USERS_PROFILE_PASSWORD1_LABEL') ?>"></span>
-					</span>
-					<input id="modlgn-passwd"  value="<?php echo (isset($_REQUEST['password']) && !empty($_REQUEST['password'])) ? $_REQUEST['password'] : ''; ?>" type="password" name="password" class="input-medium required" tabindex="0" size="18" placeholder="<?php echo JText::_('COM_USERS_PROFILE_PASSWORD1_LABEL') ?>" required="true"/>
-				</div>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="controls">
-				<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
-				<div id="form-login-remember" class="control-group checkbox">
-					<label for="modlgn-remember"><input id="modlgn-remember" type="checkbox" name="remember" class="inputbox" value="yes"/><?php echo JText::_('COM_USERS_LOGIN_REMEMBER_ME') ?></label> 
-				</div>
-				<?php endif; ?>
-			</div>
-		</div>			
-		<div id="form-login-submit" class="control-group">
-			<div class="controls">
-				<input type="hidden" value="login" name="module<?php echo $module->id; ?>">
-				<button type="submit" tabindex="0" id="submit" name="Submit" class="btn btn-primary btn"><?php echo JText::_('JLOGIN') ?></button>
-				<div id="laodingdiv" style="display:none"><img src="<?php echo JURI::root(); ?>/modules/mod_registerlogin/tmpl/assets/loader.gif"  /></div>
-				<input type="hidden" name="option" value="com_users" />
-				<input type="hidden" name="task" value="user.login" />
-				<input type="hidden" name="return" value="<?php echo $return; ?>" />
-				<?php echo JHtml::_('form.token'); ?>	
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="controls">
-				<ul class="unstyled">
-					<li><a href="<?php echo JRoute::_('index.php?option=com_users&view=remind'); ?>">
-						  <?php echo JText::_('COM_USERS_LOGIN_REMIND'); ?></a></li>
-					<li><a href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>"><?php echo JText::_('COM_USERS_LOGIN_RESET'); ?></a></li>
-				</ul>
-			</div>
-		</div>
-</form></div>
-	<div id="menu1" class="tab-pane fade <?php echo (isset($view) && $view  == 2) ? 'in active' : ''; ?>">
-	<h3><?php echo JText::_('MOD_REGISTRATION_FORM'); ?>"></h3>
-	<form action="" method="post" id="registration_form" name="josForm" class="form-validate form-horizontal">
-		<div class="control-group">
-		<?php if ($params->get('usetext')) : ?>
-			<div class="control-label">
-				<span class="text"><label id="namemsg" for="name"><?php echo JText::_('COM_USERS_PROFILE_NAME_LABEL'); ?>*</label></span>
-			</div>
-		<?php endif; ?>
-		<div class="controls">
-			<div class="input-prepend">
-				<span class="add-on">
-					<span class="icon-user tip" title="<?php echo JText::_('COM_USERS_REGISTER_NAME_LABEL'); ?>"></span>
-				</span>
-				<input tabindex="1" placeholder="<?php echo JText::_('COM_USERS_REGISTER_NAME_LABEL'); ?>" type="text" name="jform[name]" id="jform_name" size="20" value="<?php echo (isset($_REQUEST['jform']['name']) && !empty($_REQUEST['jform']['name'])) ? $_REQUEST['jform']['name'] : ''; ?>" class="inputbox required" required="true"/>
-			</div>
-		</div>
-		</div>					
-		<div class="control-group">
-			<?php if ($params->get('usetext')) { ?>
-				<div class="control-label">
-					<span class="text"><label id="usernamemsg" for="username"><?php echo JText::_('COM_USERS_REGISTER_USERNAME_LABEL'); ?>*</label></span></div>
-			<?php } ?>
-			<div class="controls">
-			<div class="input-prepend">
-			<span class="add-on">
-			<span class="icon-user tip" title="<?php echo JText::_('COM_USERS_REGISTER_USERNAME_LABEL'); ?>"></span>
-			</span><input tabindex="2" type="text" placeholder="<?php echo JText::_('COM_USERS_REGISTER_USERNAME_DESC'); ?>" id="jform_username" name="jform[username]" size="20" value="<?php echo (isset($_REQUEST['jform']['username']) && !empty($_REQUEST['jform']['username'])) ? $_REQUEST['jform']['username'] : ''; ?>" class="inputbox validate-username required" required="true"/>
-			</div>
-			</div>
-		</div>
-		<div class="control-group">
-			<?php if ($params->get('usetext')) { ?>
-				<div class="control-label">
-					<span class="text"><label id="pwmsg" for="password"><?php echo JText::_('COM_USERS_REGISTER_PASSWORD1_LABEL'); ?>*</label></span></div>
-			<?php } ?>
-			<div class="controls">
-				<div class="input-prepend">
-				<span class="add-on">
-					<span class="icon-lock tip" title="<?php echo JText::_('COM_USERS_REGISTER_PASSWORD1_LABEL'); ?>"></span>
-				</span>
-					<input tabindex="3" placeholder="<?php echo JText::_('COM_USERS_REGISTER_PASSWORD1_LABEL'); ?>" class="inputbox validate-password required" type="password" id="jform_password1" name="jform[password1]" size="20" value="" required/>
-				</div>
-			</div>
-		</div>
-		<div class="control-group">
-			<?php if ($params->get('usetext')) { ?>
-				<div class="control-label">
-					<span class="text"><label id="pw2msg" for="password2"><?php echo JText::_('COM_USERS_REGISTER_PASSWORD2_LABEL'); ?>*</label></span>
-				</div>
-			<?php } ?>
-			<div class="controls">
-				<div class="input-prepend">
-				<span class="add-on">
-					<span class="icon-lock tip" title="<?php echo JText::_('COM_USERS_REGISTER_PASSWORD2_DESC'); ?>"></span>
-				</span>
-					<input tabindex="4"  placeholder="<?php echo JText::_('COM_USERS_REGISTER_PASSWORD2_DESC'); ?>"   data-rule-equalTo="#jform_password1"  class="inputbox validate-password required" type="password" id="jform_password2" name="jform[password2]" size="20" value="" required="true" />
-				</div>
-			</div>
-		</div>
-		<div class="control-group">
-			<?php if ($params->get('usetext')) { ?>
-				<div class="control-label">
-					<span class="text"><label id="emailmsg" for="email"><?php echo JText::_('COM_USERS_REGISTER_EMAIL1_LABEL'); ?>*</label></span></div>
-			<?php } ?>
-			<div class="controls">
-				<div class="input-prepend">
-				<span class="add-on">
-					<span class="icon-envelope tip" title="Email"></span>
-				</span><input tabindex="5"   placeholder="<?php echo JText::_('COM_USERS_REGISTER_EMAIL1_DESC'); ?>"  type="email" id="jform_email1" name="jform[email1]" size="20" value="<?php echo (isset($_REQUEST['jform']['email1']) && !empty($_REQUEST['jform']['email1'])) ? $_REQUEST['jform']['email1'] : ''; ?>" class="inputbox validate-email required email" required="true"/>
-				</div>
-			</div>
-		</div>
-		<div class="control-group">
-			<?php if ($params->get('usetext')) { ?>
-				<div class="control-label">
-					<span class="text"><label id="email2msg" for="email2"><?php echo JText::_('COM_USERS_REGISTER_EMAIL2_LABEL'); ?>*</label></span></div>
-			<?php } ?>				
-			<div class="controls">
-				<div class="input-prepend">
-				<span class="add-on">
-					<span class="icon-envelope tip" title="Verify Email"></span>
-				</span><input tabindex="6"  placeholder="<?php echo JText::_('COM_USERS_REGISTER_EMAIL2_DESC'); ?>" type="email" id="jform_email2" name="jform[email2]" size="20" value="<?php echo (isset($_REQUEST['jform']['email2']) && !empty($_REQUEST['jform']['email2'])) ? $_REQUEST['jform']['email2'] : ''; ?>" class="inputbox required email" data-rule-equalTo="#jform_email1" required="true"/>
-				</div>
-			</div>
-		</div>	
-		<?php if ($params->get('enablecap_on_register')) { ?>
-		<div class="control-group">
-			<?php if ($params->get('usetext')) { ?>
-				<div class="control-label">
-					<span class="text"><label id="captcha" for="captcha"><?php echo JText::_('COM_USERS_CAPTCHA_LABEL'); ?>*</label></span></div>
-			<?php } ?>			
-			<div class="controls">
-			<?php
-				if($siteKey){ ?>
-					 <div class="g-recaptcha" data-sitekey="<?php echo $siteKey; ?>"></div>  
-				<?php }
-				else{  JError::raiseWarning( 100, 'Please enter the ReCaptcha public and secret key' ); }
-			?>			  
-			</div>	
-		</div>	
-		<?php } ?>
-		<?php  if ($params->get('tou')) { ?>
-			<div class="control-group">
-				<div class="control-label">
-					&nbsp;
-				</div>	
-				<div class="controls">
-					<?php if($params->get('newwindow') == 'modal'){ ?>
-						<input name="terms" class="required" type="checkbox" <?php if($params->get('checkbox')) { echo "checked='checked'"; } ?>  id="tou" required/> &nbsp 
-						<a class="modal" href="<?php echo JURI::root(); ?>index.php?option=com_content&view=article&id=<?php echo $params->get('articleid') ?>&tmpl=component" rel="{handler:'iframe', size:{x:1000,y:700}}"><?php echo $params->get('title'); ?></a>
+<div class="jd-register-login-wrapper jd-clearfix">
+     <div class="jd-register-login-container jd-clearfix">
+     	  <?php if(isset($layout ) && $layout  == 1){ ?>
+          <ul class="jd-register-login-tab">
+               <li class="jd-inputbox-control jd-control-check-raido"><label><input class="jd-form-checkbox-radio <?php echo (isset($view) && $view  == 1) ? 'active' : ''; ?>" type="radio" value="1" name="view" id="login_view" data-tab-target=".jd-login-container" <?php echo (isset($view) && $view  == 1) ? 'checked="checked"' : ''; ?> ><?php echo JText::_('MOD_REGISTERLOGIN_PARAM_DEFAULTVIEW_LOGIN'); ?></label></li>
 
-					<?php }else {  ?>
-					<input name="terms" class="required" type="checkbox" <?php if($params->get('checkbox')) { echo "checked='checked'"; } ?>  id="tou" /> &nbsp	
-					<a id="terms_" href="<?php echo JURI::root(); ?>index.php?option=com_content&view=article&id=<?php echo $params->get('articleid') ?>" target="<?php echo $params->get('newwindow'); ?>"><?php echo $params->get('title'); ?></a>
-					<?php } ?>
-				</div>	
-			</div>		
-		<?php } ?>
-		<div class="control-group">
-			<div class="control-label">
-				&nbsp;
-			</div>	
-			<div class="controls">
-				<button type="submit" id="register_submit"  name="Submit" class="btn btn-primary validate" /><?php echo JText::_('JREGISTER') ?><div class="regload" style="display:none"><img src="<?php echo JURI::root(); ?>/modules/mod_registerlogin/tmpl/assets/loader.gif"  /></div>
-				<input type="hidden" value="register" name="module<?php echo $module->id; ?>">
-				<input type="hidden" value="" name="openview" id="openview">
-				<?php echo JHTML::_('form.token'); ?>
-			</div>	
-		</div>
-	         </form>
-		</div>
-	</div>
+               <li class="jd-inputbox-control jd-control-check-raido"><label><input class="jd-form-checkbox-radio <?php echo (isset($view) && $view  == 2) ? 'active' : ''; ?>" type="radio" value="2" name="view" id="register_view" data-tab-target=".jd-register-container" <?php echo (isset($view) && $view  == 2) ? 'checked="checked"' : ''; ?> ><?php echo JText::_('MOD_REGISTERLOGIN_PARAM_DEFAULTVIEW_REGISTER'); ?></label></li>
+          </ul>
+          <?php } ?>
+          <!-- End radio Tab -->
+          <?php if(isset($layout ) && $layout  == 2){ ?>
+          <ul class="jd-register-login-tab">
+               <li><span class="<?php echo (isset($view) && $view  == 1) ? 'active' : 'notactive'; ?>" data-tab-target=".jd-login-container">Login</span></li>
+               <li><span class="<?php echo (isset($view) && $view  == 2) ? 'active' : 'notactive'; ?>" data-tab-target=".jd-register-container">Registration</span></li>
+          </ul>
+          <?php } ?>
+          <!-- End Tab  -->
+          <div class="jd-register-login-box">
+          <div data-tab class="jd-login-container" style="display: none;">
+               <h3 class="jd-form-title"><?php echo JText::_('MOD_REGISTERLOGIN_LOGINLEBEL'); ?></h3>
+               <form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="login-form" name="josForm" class="form-validate form-horizontal">
+                    <div class="jd-inputbox-control">
+                         <?php if ($params->get('usetext')) : ?><label for=""><?php echo JText::_('COM_USERS_LOGIN_USERNAME_LABEL'); ?> <span class="jd-required-icon">*</span></label><?php endif; ?>
+                         <input type="text" id="modlgn-username" name="username" class="jd-form-input required" value="" tabindex="0" size="18" placeholder="<?php echo JText::_('COM_USERS_LOGIN_USERNAME_LABEL'); ?>" required="true">
+                    </div>
+                    <div class="jd-inputbox-control">
+                          <?php if ($params->get('usetext')) : ?><label for=""><?php echo JText::_('COM_USERS_PROFILE_PASSWORD1_LABEL'); ?> <span class="jd-required-icon">*</span></label><?php endif; ?>
+                         <input value="" id="modlgn-passwd" type="password" name="password" class="jd-form-input required" tabindex="0" size="18" placeholder="<?php echo JText::_('COM_USERS_PROFILE_PASSWORD1_LABEL'); ?>" required="true">
+                    </div>
+                    <div class="jd-inputbox-control jd-control-check-raido">
+                          <?php if (JPluginHelper::isEnabled('system', 'remember')) : ?><label for=""><input type="checkbox" name="remember" class="jd-form-checkbox-radio" value="yes"><?php echo JText::_('COM_USERS_LOGIN_REMEMBER_ME') ?></label><?php endif; ?>
+                    </div>
+                    <div class="jd-button-control">
+                    	<input type="hidden" value="login" name="module<?php echo $module->id; ?>">
+                         <button type="submit" tabindex="0" id="submit" name="Submit" class="jd-form-button"><?php echo JText::_('JLOGIN') ?></button>
+                         <input type="hidden" name="option" value="com_users" />
+                         <input type="hidden" name="task" value="user.login" />
+                         <input type="hidden" name="return" value="<?php echo $return; ?>" />
+                         <?php echo JHtml::_('form.token'); ?>   
+                    </div>
+               </form>
+               <div class="jd-list-wrapper">
+                    <div class="jd-list-group">
+                         <a href="<?php echo JRoute::_('index.php?option=com_users&view=remind'); ?>" class="jd-list-block ForgotUser"><?php echo JText::_('MOD_REGISTERLOGIN_FORGOT_YOUR_USERNAME'); ?></a>
+                         <a href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>" class="jd-list-block ForgotpPass"><?php echo JText::_('MOD_REGISTERLOGIN_FORGOT_YOUR_PASSWORD'); ?></a>
+                    </div>
+               </div>
+          </div>
+          <!-- End jd login container -->
+          <div data-tab class="jd-register-container">
+               <h3 class="jd-form-title"><?php echo JText::_('MOD_REGISTERLOGIN_REGISTERLEBEL'); ?></h3>
+               <form action="" method="post" id="registration_form" name="josForm" class="form-validate form-horizontal">
+                    <div class="jd-inputbox-control">
+                         <?php if ($params->get('usetext')) : ?><label for=""><?php echo JText::_('COM_USERS_REGISTER_NAME_LABEL'); ?> <span class="jd-required-icon">*</span></label><?php endif; ?>
+                         <input tabindex="1" placeholder="<?php echo JText::_('COM_USERS_REGISTER_NAME_LABEL'); ?>" type="text" name="jform[name]" id="jform_name" size="20" class="jd-form-input required" required/>
+                    </div>
+                    <div class="jd-inputbox-control">
+                         <?php if ($params->get('usetext')) : ?><label for=""><?php echo JText::_('COM_USERS_REGISTER_USERNAME_DESC'); ?> <span class="jd-required-icon">*</span></label><?php endif; ?>
+                         <input tabindex="2" type="text" placeholder="<?php echo JText::_('COM_USERS_REGISTER_USERNAME_DESC'); ?>" id="jform_username" name="jform[username]" size="20" class="jd-form-input required" required/>
+                    </div>
+                    <div class="jd-inputbox-control">
+                         <?php if ($params->get('usetext')) : ?><label for=""><?php echo JText::_('COM_USERS_REGISTER_PASSWORD1_LABEL'); ?> <span class="jd-required-icon">*</span></label><?php endif; ?>
+                         <input tabindex="3" placeholder="<?php echo JText::_('COM_USERS_REGISTER_PASSWORD1_LABEL'); ?>" class="jd-form-input required" type="password" id="jform_password1" name="jform[password1]" size="20" value="" required/>
+                    </div>
+                    <div class="jd-inputbox-control">
+                         <?php if ($params->get('usetext')) : ?><label for=""><?php echo JText::_('COM_USERS_REGISTER_PASSWORD2_DESC'); ?> <span class="jd-required-icon">*</span></label><?php endif; ?>
+                         <input tabindex="4"  placeholder="<?php echo JText::_('COM_USERS_REGISTER_PASSWORD2_DESC'); ?>"   data-rule-equalTo="#jform_password1"  class="jd-form-input required" type="password" id="jform_password2" name="jform[password2]" size="20" value="" required/>
+                    </div>
+                    <div class="jd-inputbox-control">
+                         <?php if ($params->get('usetext')) : ?><label for=""><?php echo JText::_('COM_USERS_REGISTER_EMAIL1_DESC'); ?> <span class="jd-required-icon">*</span></label><?php endif; ?>
+                         <input tabindex="5" placeholder="<?php echo JText::_('COM_USERS_REGISTER_EMAIL1_DESC'); ?>"  type="email" id="jform_email1" name="jform[email1]" size="20" class="jd-form-input validate-email required email" required/>
+                    </div>
+                    <div class="jd-inputbox-control">
+                         <?php if ($params->get('usetext')) : ?><label for=""><?php echo JText::_('COM_USERS_REGISTER_EMAIL2_DESC'); ?> <span class="jd-required-icon">*</span></label><?php endif; ?>
+                         <input tabindex="6"  placeholder="<?php echo JText::_('COM_USERS_REGISTER_EMAIL2_DESC'); ?>" type="email" id="jform_email2" name="jform[email2]" size="20" class="jd-form-input required email" data-rule-equalTo="#jform_email1" required/>
+                    </div>
+                    <div class="jd-inputbox-control">
+                    	 <?php if ($params->get('enablecap_on_register')) { ?>
+                         <?php if ($params->get('usetext')) : ?>
+                         	<label for="">Captcha <span class="jd-required-icon">*</span></label>
+                         <?php endif; ?>
+                         <?php
+					if($siteKey){ ?>
+						 <div class="g-recaptcha" data-sitekey="<?php echo $siteKey; ?>"></div>  
+					<?php }
+					else{
+						JError::raiseWarning( 100, 'Please enter the ReCaptcha public and secret key' ); ?>
+                         <span class="jd-error">Please enter the ReCaptcha public and secret key</span>
+     				<?php } } ?>
+                    </div>
+                    <?php  if ($params->get('tou')) { ?>
+                    <div class="jd-inputbox-control jd-control-check-raido">
+                         <label for="">
+							<input name="terms" class="required" type="checkbox" <?php if($params->get('checkbox')) { echo "checked='checked'"; } ?>  id="tou" required="true"/> &nbsp 
+                                   <?php if($params->get('newwindow') == 'modal'){  ?>
+							<a href="<?php echo JURI::root(); ?>index.php?option=com_content&view=article&id=<?php echo $params->get('articleid') ?>&tmpl=component" rel="{handler:'iframe', size:{x:1000,y:700}}"><?php echo $title = $params->get('title') ? $params->get('title') : "I Agree to the Terms of Use"; ?></a>
+							<?php } else {  ?>
+							<a id="terms_" href="<?php echo JURI::root(); ?>index.php?option=com_content&view=article&id=<?php echo $params->get('articleid') ?>" target="<?php echo $params->get('newwindow'); ?>"><?php echo $title = $params->get('title') ? $params->get('title') : "I Agree to the Terms of Use"; ?></a>
+							<?php } ?>
+                         </label>
+                    </div>	
+				<?php } ?>
+                    <div class="jd-button-control">
+                         <button type="submit" id="register_submit" name="Submit" class="jd-form-button validate"><?php echo JText::_('JREGISTER') ?> <img src="<?php echo JURI::root(); ?>/modules/mod_registerlogin/tmpl/assets/Spinner.gif" class="regload" style="display:none;" /></button>
+                         <input type="hidden" value="register" name="module<?php echo $module->id; ?>">
+						 <input type="hidden" value="" name="openview" id="openview">
+						<?php echo JHTML::_('form.token'); ?>
+                    </div>
+               </form>
+          </div>
+          </div>
+          <!-- End jd register login box -->
+     </div>
 </div>
-<?php } ?>
+<script type="text/javascript">
+  jQuery(document).ready(function() {
+	jQuery(function(){
+     jQuery('[data-tab]').hide();
+     jQuery('[data-tab-target]').click(function(){
+          jQuery('[data-tab]').hide();
+          jQuery('[data-tab-target]').removeClass('active');
+          var _target = jQuery(this).data('tab-target');
+          jQuery(_target).show();
+          jQuery(this).addClass('active');
+     });
+     var _target = jQuery('.active[data-tab-target]').data('tab-target');
+     jQuery(_target).show();
+   });
+ });
+</script>
