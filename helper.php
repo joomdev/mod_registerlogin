@@ -443,6 +443,7 @@ class modRegisterLoginHelper
 					}
 				}
 			}
+            $_SESSION['jd_user_registered'] = 1;
 		}
 	}
 	public static function getReturnUrl($params, $type)
