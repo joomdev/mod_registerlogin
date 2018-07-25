@@ -28,11 +28,19 @@ if($params->get('ajax_registration')){
 	$document->addScript(JURI::root() .'modules/mod_registerlogin/tmpl/assets/registerlogin.js');
 }
 $usersConfig = JComponentHelper::getParams( 'com_users' );
-JPluginHelper::importPlugin('captcha');
-$dispatcher = JDispatcher::getInstance();
-$dispatcher->trigger('onInit','dynamic_recaptcha_1');
+// Register API keys at https://www.google.com/recaptcha/admin
+//$siteKey = '6Lfnsh4TAAAAANQrnJ1mg-g8o-R3Ws1wlitO_CRA';
+//$secret = '6Lfnsh4TAAAAAEGJNvzAlaGzLP1TL8Liy4uUaZAm';
+$siteKey = $params->get('sitekey');
+$secret = $params->get('secretkey');
+
+// reCAPTCHA supported 40+ languages listed here: https://developers.google.com/recaptcha/docs/language
+$lang = 'en';
+
  ?>
 <link href="<?php echo JURI::root() .'modules/mod_registerlogin/tmpl/assets/registerlogin.css' ?>"  type="text/css" rel="stylesheet"/>
+<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=<?php echo $lang; ?>"></script>
+			
 <div id="error_message">
 	<?php if($errorMessage){ ?>
 		<div class="alert alert-error"><a data-dismiss="alert" class="close">x</a><div><p><?php echo $errorMessage; ?></p></div></div>
@@ -211,9 +219,15 @@ $dispatcher->trigger('onInit','dynamic_recaptcha_1');
 						</div>
 					<?php } ?>			
 					<div class="controls">
-						<div id="captcha2">
-							<div id="dynamic_recaptcha_1"></div>
-						</div>	
+					<?php
+						if($siteKey){ ?>
+							 <div class="g-recaptcha" data-sitekey="<?php echo $siteKey; ?>"></div>  
+						<?php }
+						else{
+							JError::raiseWarning( 100, 'Please enter the ReCaptcha public and secret key' );
+						}
+					?>
+						          
 					</div>	
 				</div>	
 			<?php } ?>

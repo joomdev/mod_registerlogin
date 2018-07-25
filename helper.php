@@ -65,7 +65,7 @@ class modRegisterLoginHelper
 		//check captcha validat
 		$captch_enable = $params->get('enablecap_on_register');
 		if($captch_enable){
-			if (isset($_REQUEST["recaptcha_response_field"]) && !empty($_REQUEST["recaptcha_response_field"])) {
+			/* if (isset($_REQUEST["recaptcha_response_field"]) && !empty($_REQUEST["recaptcha_response_field"])) {
 				JPluginHelper::importPlugin('captcha');
 				$dispatcher = JDispatcher::getInstance();
 				$resp = $dispatcher->trigger('onCheckAnswer',$_REQUEST['recaptcha_response_field']);
@@ -76,7 +76,16 @@ class modRegisterLoginHelper
 					echo json_encode($data);
 					exit;	
 				}
+			} */
+			
+			if (!($_REQUEST["g-recaptcha-response"])) {
+				$data['message']  = '<div class="alert alert-error"><a data-dismiss="alert" class="close">x</a><div><p>'.JText::_('MOD_REGISTERLOGIN_CAPTCHA_ERROR').'</p></div></div>';
+					$data['success']  = false;
+					echo json_encode($data);
+					exit;
 			}
+			
+			
 		}	
 				
 		JPluginHelper::importPlugin('user');
