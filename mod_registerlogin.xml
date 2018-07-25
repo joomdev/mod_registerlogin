@@ -6,12 +6,12 @@
 	method="upgrade">
 	<name>Register Login</name>
 	<author>JoomDev</author>
-	<creationDate>Feb 9th, 2018</creationDate>
+	<creationDate>Feb 27, 2019</creationDate>
 	<copyright>All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>info@joomdev.com</authorEmail>
 	<authorUrl>www.joomDev.com</authorUrl>
-	<version>1.3</version>
+	<version>1.4</version>
 	<description>
 	<![CDATA[<div style="font-size:16px; font-weight:bold; color:black; text-align:left; margin:0px; padding:0px 5px;"><h3>Register Login By JoomDev</h3></div>	
 	<div style="font-weight:normal; border-bottom:1px solid #f0dc7e;display:block; padding-bottom:5px; margin:5px; background-color:#fff;"></div>
@@ -59,6 +59,20 @@
 					<option
 						value="2">MOD_REGISTERLOGIN_PARAM_DEFAULTVIEW_REGISTER</option>
 				</field>
+				
+				<field
+					name="view1"
+					type="list"
+					default="1"
+					label="MOD_REGISTERLOGIN_CHOOSELAYOUT"
+					description="MOD_REGISTERLOGIN_CHOOSELAYOUT_DES">
+					<option
+						value="1">MOD_REGISTERLOGIN_CHOOSELAYOUT_VALUE</option>
+					<option
+						value="2">MOD_REGISTERLOGIN_CHOOSELAYOUT_VALUE1</option>
+					
+				</field>
+			
 				<field
 					name="useractivation"
 					type="list"
@@ -76,7 +90,6 @@
 					name="ajax_registration"
 					type="radio"
 					class="btn-group btn-group-yesno"
-					default="1"
 					label="MOD_REGISTERLOGIN_AJAX_REGISTRATION"
 					description="MOD_REGISTERLOGIN_AJAX_REGISTRATION_DESCRIPTION">
 					<option value="1">JYES</option>

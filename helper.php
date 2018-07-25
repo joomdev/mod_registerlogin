@@ -626,10 +626,10 @@ class modRegisterLoginHelper
 				$lang = '&lang=' . $item->language;
 			}
 
-			$url = 'index.php?Itemid=' . $item->id . $lang;
+			$url = JRoute::_('index.php?Itemid=' . $item->id . $lang);
 		}
 
-		return $url;
+		return str_replace('&amp;','&', $url); 
 	}
 	
 	

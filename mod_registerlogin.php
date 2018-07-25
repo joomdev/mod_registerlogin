@@ -46,7 +46,7 @@ if(JRequest::getVar($mName) == 'register'){
 		
 		$app->enqueueMessage($messge, 'Success');
 		if($params->get('login')){
-			$app->redirect(JURI::Root().$return);
+			$app->redirect($return);
 		}else{		
 			$app->redirect(JURI::current());
 		}
@@ -60,7 +60,7 @@ if(JRequest::getVar($mName) == 'login'){
 	$loginResponse = modRegisterLoginHelper::getUserlogin($params);
 	if(!$loginResponse['error']){		
 		if($params->get('login')){
-			$app->redirect(JURI::Root().$return);
+			$app->redirect($return);
 		}else{		
 			$app->redirect(JURI::current());
 		}
