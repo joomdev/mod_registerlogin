@@ -2,5 +2,5 @@
 .cptcha{color:red;font-weight:bold; margin:0px; padding0px;}
 .padtxt{margin:0px 8px 0px 5px !important;}
 .showtxt{margin:3px 0px 0px 0px !important;}
-#laodingdiv{position:absolute; margin:-23px 0px 0px 75px;}
+#loadingdiv{position:absolute; margin:-23px 0px 0px 75px;}
 .regload{position:absolute; margin:-22px 0px 0px 90px;}

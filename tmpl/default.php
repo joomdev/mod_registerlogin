@@ -97,7 +97,10 @@ $lang = 'en';
 		<div id="form-login-submit" class="control-group">
 			<div class="controls">
 				<input type="hidden" value="login" name="module<?php echo $module->id; ?>">				
-				<button type="submit" tabindex="0" id="submit" name="Submit" class="btn btn-primary btn"><?php echo JText::_('JLOGIN') ?></button><div id="laodingdiv" style="display:none"><img src="<?php echo JURI::root(); ?>/modules/mod_registerlogin/tmpl/assets/loader.gif"  /></div>
+				<button type="submit" tabindex="0" id="submit" name="Submit" class="btn btn-primary btn"><?php echo JText::_('JLOGIN') ?></button>
+				<div id="loadingdiv" style="display:none">
+				<img src="<?php echo JURI::root(); ?>/modules/mod_registerlogin/tmpl/assets/loader.gif"  />
+				</div>
 				<input type="hidden" value="" name="openview" id="openview">
 				<?php echo JHtml::_('form.token'); ?>	
 			</div>

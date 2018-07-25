@@ -583,6 +583,10 @@ class modRegisterLoginHelper
 	
 	}
 	
+	/* 
+	Commenting the below function as this doesn't capture
+	the menu ItemId and doesn't redirec the user propertly.
+	
 	public static function getReturnURL($params, $type)
 	{
 		$app	= JFactory::getApplication();
@@ -600,6 +604,34 @@ class modRegisterLoginHelper
 		
 		return 'index.php?' . JUri::buildQuery($vars);
 	}
+	*/
+	
+	/* 
+	Copying the below function from Joomla Core mod_login
+	*/
+	public static function getReturnUrl($params, $type)
+	{
+		$app  = JFactory::getApplication();
+		$item = $app->getMenu()->getItem($params->get($type));
+
+		// Stay on the same page
+		$url = JUri::getInstance()->toString();
+
+		if ($item)
+		{
+			$lang = '';
+
+			if ($item->language !== '*' && JLanguageMultilang::isEnabled())
+			{
+				$lang = '&lang=' . $item->language;
+			}
+
+			$url = 'index.php?Itemid=' . $item->id . $lang;
+		}
+
+		return $url;
+	}
+	
 	
 	public static function getType()
 	{
