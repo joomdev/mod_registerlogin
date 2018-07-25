@@ -2,13 +2,13 @@ jQuery(document).ready(function() {
 
 	jQuery(".view_").change(function() {
 		if(jQuery(this).val()  == 1) {								
-				jQuery('#registration_').hide();
-				jQuery('#login_form').show();
+				//jQuery('#registration_').hide();
+			//	jQuery('#login_form').show();
 				jQuery('#login_form input#openview').val(jQuery(this).val());
 				
 			}else if (jQuery(this).val() ==2){							
-				jQuery('#login_form').hide();
-				jQuery('#registration_').show();				
+				//jQuery('#login_form').hide();
+			//	jQuery('#registration_').show();				
 				jQuery('#registration_ input#openview').val(jQuery(this).val());
 			}
 	});	
