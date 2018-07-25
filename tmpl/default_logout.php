@@ -7,12 +7,11 @@
  * @copyright	Copyright (C) 2009 - 2016 www.joomdev.com. All rights reserved.
  * @license		GNU GPL2 or later; see LICENSE.txt
  */
-
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
 if($params->get('logout')){
-	$afterlogout_ = JURI::Root().$return;
+	$afterlogout_ = JRoute::_(JUri::getInstance()->toString());
 }else{
 	$afterlogout_ = JRoute::_(JURI::root());
 }

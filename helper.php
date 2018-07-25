@@ -572,8 +572,8 @@ class modRegisterLoginHelper
 					// Check for an error.
 					if ($return !== true)
 					{
-						$app->setError(JText::_('MOD_REGISTERLOGIN_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
-
+						//$app->setError(JText::_('MOD_REGISTERLOGIN_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
+						JError::raiseError( 4711, JText::_('MOD_REGISTERLOGIN_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED') );
 						return false;
 					}
 				}
