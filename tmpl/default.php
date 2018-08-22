@@ -1,11 +1,10 @@
 <?php
 /**
- * @package         Login Register module for joomla
- * @subpackage  mod_loginregister
- * @author          www.joomdev.com
- * @author          Created on March 2016
- * @copyright  Copyright (C) 2009 - 2016 www.joomdev.com. All rights reserved.
- * @license         GNU GPL2 or later; see LICENSE.txt
+ * @package		Register Login Joomla Module
+ * @version		1.9
+ * @author		www.joomdev.com
+ * @copyright	Copyright (C) 2009 - 2018 www.joomdev.com. All rights reserved.
+ * @license	   GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
@@ -189,5 +188,4 @@ $lang = 'en';
         (function($) {
             $('#jd-logrig-module-<?php echo $module->id; ?>').jdRegisterLogin();
         }(jQuery))
-
     </script>
