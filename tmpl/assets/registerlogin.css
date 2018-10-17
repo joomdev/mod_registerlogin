@@ -1,9 +1,8 @@
 /**
  * @package		Register Login Joomla Module
- * @version		1.9
- * @author		www.joomdev.com
- * @copyright	Copyright (C) 2009 - 2018 www.joomdev.com. All rights reserved.
- * @license	   GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ * @author		JoomDev
+ * @copyright	Copyright (C) 2018 Joomdev, Inc. All rights reserved.
+ * @license    GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
 .jd-register-login-wrapper * {
@@ -52,11 +51,13 @@
 	margin: 0;
 	padding: 0;
 	list-style: none;
+	display: flex;
 }
 
 .jd-register-login-wrapper .jd-register-login-tab li {
-	margin-right: 5px;
 	display: inline-block;
+	width: 50%;
+	text-align: center;
 }
 
 .jd-register-login-wrapper .jd-register-login-tab li span {
@@ -71,11 +72,6 @@
 	border-bottom: 0;
 	color: #212529;
 	background-color: #f8f9fa;
-	-webkit-transition: all 0.5s ease;
-	-moz-transition: all 0.5s ease;
-	-ms-transition: all 0.5s ease;
-	-o-transition: all 0.5s ease;
-	transition: all 0.5s ease;
 }
 
 .jd-register-login-wrapper .jd-register-login-tab li span.active,
@@ -105,6 +101,7 @@
 .jd-register-login-wrapper .jd-register-login-box .jd-inputbox-control {
 	display: block;
 	margin-bottom: 1rem;
+	position: relative;
 }
 
 .jd-register-login-wrapper .jd-register-login-box .jd-button-control:last-child,
@@ -114,7 +111,7 @@
 
 .jd-register-login-wrapper .jd-control-check-raido {
 	position: relative;
-	display: block;
+	display: flex;
 	padding-left: 0;
 }
 
@@ -143,6 +140,8 @@
 .jd-register-login-wrapper .jd-register-login-tab .jd-inputbox-control.jd-control-check-raido {
 	margin-bottom: 0;
 	padding: 15px;
+	width: 50%;
+	text-align: center;
 }
 
 .jd-register-login-wrapper .jd-register-login-box .jd-inputbox-control .jd-form-input {
@@ -158,7 +157,7 @@
 	font-size: 16px;
 	font-weight: 500;
 	line-height: 40px;
-	padding: 0 19px;
+	padding: 0 15px;
 	background-color: #fff;
 	border: 1px solid #efefef;
 	-webkit-border-radius: 3px;
@@ -252,6 +251,7 @@
 	font-size: 16px;
 	line-height: 24px;
 	padding: 8px 15px;
+	margin-top: 10px;
 	text-align: center;
 	text-decoration: none;
 	-webkit-transition: all 0.3s ease-out 0s;
@@ -278,11 +278,11 @@
 	display: inline-block;
 }
 
-.error {
+.jd-register-login-wrapper .error {
 	color: red;
 }
 
-#error_message1 {
+.jd-register-login-wrapper #error_message1 {
 	margin-bottom: 10px;
 }
 
@@ -299,4 +299,24 @@
 
 .jd-register-login-wrapper .jd-inputbox-control label.error {
 	float: none !important;
+}
+
+.jd-input-group-addon {
+	padding: 0 10px;
+	margin-bottom: 0;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 40px;
+	color: #495057;
+	text-align: center;
+	background-color: #e9ecef;
+	border: 1px solid #ced4da;
+	border-radius: 0;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+
+.jd-register-login-wrapper .showpass {
+	cursor: pointer;
 }

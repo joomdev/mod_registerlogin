@@ -1,9 +1,8 @@
 /**
  * @package		Register Login Joomla Module
- * @version		1.9
- * @author		www.joomdev.com
- * @copyright	Copyright (C) 2009 - 2018 www.joomdev.com. All rights reserved.
- * @license	   GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ * @author		JoomDev
+ * @copyright	Copyright (C) 2018 Joomdev, Inc. All rights reserved.
+ * @license    GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
 jQuery(document).ready(function () {
@@ -21,18 +20,6 @@ jQuery(document).ready(function () {
 		}
 	});
 	jQuery("#registration_form").validate({
-		rules: {
-			recaptcha_response_field: "required"
-		},
-		errorPlacement: function (error, element) {
-			if (element.attr("name") == "recaptcha_response_field") {
-				error.insertAfter("#registration_form #recaptcha_area");
-			} else if (element.attr("name") == "terms") {
-				error.insertAfter("#registration_form #terms_");
-			} else {
-				error.insertAfter(element);
-			}
-		},
 		submitHandler: function () {
 			var submit = jQuery('#register_submit');
 			jQuery.ajax({

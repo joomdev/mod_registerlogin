@@ -1,9 +1,8 @@
 /**
  * @package		Register Login Joomla Module
- * @version		1.9
- * @author		www.joomdev.com
- * @copyright	Copyright (C) 2009 - 2018 www.joomdev.com. All rights reserved.
- * @license	   GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ * @author		JoomDev
+ * @copyright	Copyright (C) 2018 Joomdev, Inc. All rights reserved.
+ * @license    GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
 jQuery(document).ready(function () {

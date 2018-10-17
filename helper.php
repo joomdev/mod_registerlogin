@@ -1,12 +1,10 @@
 <?php
 /**
  * @package		Register Login Joomla Module
- * @version		1.9
- * @author		www.joomdev.com
- * @copyright	Copyright (C) 2009 - 2018 www.joomdev.com. All rights reserved.
- * @license	   GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ * @author		JoomDev
+ * @copyright	Copyright (C) 2018 Joomdev, Inc. All rights reserved.
+ * @license    GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
-
 defined('_JEXEC') or die;
 class modRegisterLoginHelper
 {	
@@ -407,7 +405,8 @@ class modRegisterLoginHelper
 
 					// Check for an error.
 					if ($return !== true){
-						JError::raiseError( 4711, JText::_('MOD_REGISTERLOGIN_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED') );
+						echo $return;
+						//JError::raiseError( 4711, JText::_('MOD_REGISTERLOGIN_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED') );
 						return false;
 					}
 				}
@@ -419,17 +418,15 @@ class modRegisterLoginHelper
 	{
 		$app  = JFactory::getApplication();
 		$item = $app->getMenu()->getItem($params->get($type));
+
 		// Stay on the same page
 		$url = JUri::getInstance()->toString();
+
 		if ($item)
 		{
-			$lang = '';
-			if ($item->language !== '*' && JLanguageMultilang::isEnabled())
-			{
-				$lang = '&lang=' . $item->language;
-			}
-			$url = JURI::root().'index.php?Itemid=' . $item->id . $lang;
+			$url = JRoute::_('index.php?Itemid=' . $item->id);
 		}
+
 		return base64_encode($url);
 	}
 	public static function getType()
