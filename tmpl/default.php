@@ -85,7 +85,9 @@ $lang = 'en';
                             <?php endif; ?>
                             <input value="" id="modlgn_passwd" type="password" name="password" class="jd-form-input required password" tabindex="0" size="18" placeholder="<?php  if(!$params->get('usetext')) { echo JText::_('COM_USERS_PROFILE_PASSWORD1_LABEL'); } ?>" required="true">
                             <span class="jd-input-group-addon" onclick="previewpass()">
-                                <span class="showpass" id="loginshowpass" aria-hidden="true"><?php echo JText::_('JSHOW') ?></span>
+                             <img src="modules/mod_registerlogin/tmpl/assets/images/eye-regular.svg" style="width:25px;" id="svgLoginId">
+
+                            <span class="showpass show" id="loginshowpass" aria-hidden="true"></span>
                             </span>
                         </div>
                         <div class="jd-inputbox-control jd-control-check-raido">
@@ -137,7 +139,8 @@ $lang = 'en';
                                 <?php endif; ?>
                                 <input tabindex="4" placeholder="<?php if(!$params->get('usetext')) { echo JText::_('COM_USERS_REGISTER_PASSWORD2_DESC'); } ?>" data-rule-equalTo="#jform_password1" class="jd-form-input required" type="password" id="jform_password2" name="jform[password2]" size="20" value="" required/>
                                 <span class="jd-input-group-addon" onclick="previewpassonregister()">
-                                    <span class="showpass" id="reghidepass" aria-hidden="true"><?php echo JText::_('JSHOW') ?></span>
+                                    <img src="modules/mod_registerlogin/tmpl/assets/images/eye-regular.svg" style="width:25px;" id="svgLoginRes">
+                                    <span class="showpass" id="reghidepass" aria-hidden="true"></span>
                                 </span>
                             </div>
                             <div class="jd-inputbox-control">
@@ -220,10 +223,15 @@ $lang = 'en';
            
             if (login.type === "password") {
                 login.type = "text";
-                document.getElementById("loginshowpass").innerHTML = "<?php echo JText::_('JHIDE') ?>";
+                document.getElementById("loginshowpass").classList.add("hide");
+                document.getElementById("loginshowpass").classList.remove("show");
+                document.getElementById("svgLoginId").src= "modules/mod_registerlogin/tmpl/assets/images/eye-slash-regular.svg";
+
             } else {
                 login.type = "password";
-                document.getElementById("loginshowpass").innerHTML = "<?php echo JText::_('JSHOW') ?>";
+                document.getElementById("loginshowpass").classList.remove("hide");
+                document.getElementById("loginshowpass").classList.add("show");
+                document.getElementById("svgLoginId").src= "modules/mod_registerlogin/tmpl/assets/images/eye-regular.svg";
             }
         }
 
@@ -233,11 +241,11 @@ $lang = 'en';
             if ((pass1.type === "password") && (pass2.type === "password")) {
                 pass1.type = "text";
                 pass2.type = "text";
-                document.getElementById("reghidepass").innerHTML = "<?php echo JText::_('JHIDE') ?>";
+                document.getElementById("svgLoginRes").src= "modules/mod_registerlogin/tmpl/assets/images/eye-slash-regular.svg";
             } else {
                 pass1.type = "password";
                 pass2.type = "password";
-                document.getElementById("reghidepass").innerHTML = "<?php echo JText::_('JSHOW') ?>";
+                document.getElementById("svgLoginRes").src= "modules/mod_registerlogin/tmpl/assets/images/eye-regular.svg";
             }
         }
     </script>
