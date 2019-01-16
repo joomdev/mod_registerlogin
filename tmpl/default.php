@@ -71,9 +71,6 @@ $lang = 'en';
             <!-- End Tab  -->
             <div class="jd-register-login-box">
                 <div data-tab id="jd-login-container-<?php echo $module->id; ?>" class="jd-login-container">
-                    <h3 class="jd-form-title">
-                        <?php echo JText::_('MOD_REGISTERLOGIN_LOGINLEBEL'); ?>
-                    </h3>
                     <form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="login-form" name="josForm" class="form-validate form-horizontal">
                         <div class="jd-inputbox-control">
                             <?php if ($params->get('usetext')) : ?><label for=""><?php echo JText::_('COM_USERS_LOGIN_USERNAME_LABEL'); ?> </label>
