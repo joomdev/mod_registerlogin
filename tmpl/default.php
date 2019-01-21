@@ -34,6 +34,8 @@ $usersConfig = JComponentHelper::getParams( 'com_users' );
 $siteKey = $params->get('sitekey');
 $secret = $params->get('secretkey');
 $lang = 'en';
+
+
 ?>
     <link href="<?php echo JURI::root() .'modules/mod_registerlogin/tmpl/assets/registerlogin.css' ?>" type="text/css" rel="stylesheet" />
     <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=<?php echo $lang; ?>"></script>
@@ -137,7 +139,7 @@ $lang = 'en';
                                 <input tabindex="4" placeholder="<?php if(!$params->get('usetext')) { echo JText::_('COM_USERS_REGISTER_PASSWORD2_DESC'); } ?>" data-rule-equalTo="#jform_password1" class="jd-form-input required" type="password" id="jform_password2" name="jform[password2]" size="20" value="" required/>
                                 <span class="jd-input-group-addon" onclick="previewpassonregister()">
                                     <img src="modules/mod_registerlogin/tmpl/assets/images/eye-regular.svg" style="width:25px;" id="svgLoginRes">
-                                    <span class="showpass" id="reghidepass" aria-hidden="true"></span>
+                                   
                                 </span>
                             </div>
                             <div class="jd-inputbox-control">
@@ -197,22 +199,26 @@ $lang = 'en';
     <script>
         (function($) {
             $('#jd-logrig-module-<?php echo $module->id; ?>').jdRegisterLogin();
-            <?php if(!$params->get('ajax_registration')){ ?>
+            
                 $('#registration_form').validate({ // initialize the plugin
                     rules: {
-                        'terms[]': {
-                            required: true,
-                            maxlength: 2
+                        'jform[password1]': {
+                            maxlength: <?php echo $usersConfig->get('minimum_length'); ?>
+                        },
+                        'jform_password2': {
+                            maxlength: <?php echo $usersConfig->get('minimum_length'); ?>
                         }
                     },
                     messages: {
-                        'terms[]': {
-                            required: "You must check at least 1 box",
-                            maxlength: "Check no more than {0} boxes"
+                        'jform[password1]': {
+                            maxlength: "<?php echo JTEXT::_("MOD_REGISTERLOGIN_PASSWORD_ERROR_START").$usersConfig->get('minimum_length').JTEXT::_("MOD_REGISTERLOGIN_PASSWORD_ERROR_END"); ?>"
+                        },
+                        'jform_password2': {
+                            maxlength: "<?php echo JTEXT::_("MOD_REGISTERLOGIN_PASSWORD_ERROR_START").$usersConfig->get('minimum_length').JTEXT::_("MOD_REGISTERLOGIN_PASSWORD_ERROR_END"); ?>"
                         }
                     },
                 });
-            <?php } ?>
+           
         }(jQuery))
 
         function previewpass() {
@@ -220,15 +226,11 @@ $lang = 'en';
            
             if (login.type === "password") {
                 login.type = "text";
-                document.getElementById("loginshowpass").classList.add("hide");
-                document.getElementById("loginshowpass").classList.remove("show");
-                document.getElementById("svgLoginId").src= "modules/mod_registerlogin/tmpl/assets/images/eye-slash-regular.svg";
+                document.getElementById("svgLoginId").src= "<?php echo JURI::ROOT();?>/modules/mod_registerlogin/tmpl/assets/images/eye-slash-regular.svg";
 
             } else {
                 login.type = "password";
-                document.getElementById("loginshowpass").classList.remove("hide");
-                document.getElementById("loginshowpass").classList.add("show");
-                document.getElementById("svgLoginId").src= "modules/mod_registerlogin/tmpl/assets/images/eye-regular.svg";
+                document.getElementById("svgLoginId").src= "<?php echo JURI::ROOT();?>/modules/mod_registerlogin/tmpl/assets/images/eye-regular.svg";
             }
         }
 
@@ -238,11 +240,11 @@ $lang = 'en';
             if ((pass1.type === "password") && (pass2.type === "password")) {
                 pass1.type = "text";
                 pass2.type = "text";
-                document.getElementById("svgLoginRes").src= "modules/mod_registerlogin/tmpl/assets/images/eye-slash-regular.svg";
+                document.getElementById("svgLoginRes").src= "<?php echo JURI::ROOT();?>/modules/mod_registerlogin/tmpl/assets/images/eye-slash-regular.svg";
             } else {
                 pass1.type = "password";
                 pass2.type = "password";
-                document.getElementById("svgLoginRes").src= "modules/mod_registerlogin/tmpl/assets/images/eye-regular.svg";
+                document.getElementById("svgLoginRes").src= "<?php echo JURI::ROOT();?>/modules/mod_registerlogin/tmpl/assets/images/eye-regular.svg";
             }
         }
     </script>
