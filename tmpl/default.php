@@ -203,18 +203,18 @@ $lang = 'en';
                 $('#registration_form').validate({ // initialize the plugin
                     rules: {
                         'jform[password1]': {
-                            maxlength: <?php echo $usersConfig->get('minimum_length'); ?>
+                            minlength: <?php echo $usersConfig->get('minimum_length'); ?>
                         },
                         'jform_password2': {
-                            maxlength: <?php echo $usersConfig->get('minimum_length'); ?>
+                            minlength: <?php echo $usersConfig->get('minimum_length'); ?>
                         }
                     },
                     messages: {
                         'jform[password1]': {
-                            maxlength: "<?php echo JTEXT::_("MOD_REGISTERLOGIN_PASSWORD_ERROR_START").$usersConfig->get('minimum_length').JTEXT::_("MOD_REGISTERLOGIN_PASSWORD_ERROR_END"); ?>"
+                            minlength: "<?php echo JTEXT::_("MOD_REGISTERLOGIN_PASSWORD_ERROR_START").$usersConfig->get('minimum_length').JTEXT::_("MOD_REGISTERLOGIN_PASSWORD_ERROR_END"); ?>"
                         },
                         'jform_password2': {
-                            maxlength: "<?php echo JTEXT::_("MOD_REGISTERLOGIN_PASSWORD_ERROR_START").$usersConfig->get('minimum_length').JTEXT::_("MOD_REGISTERLOGIN_PASSWORD_ERROR_END"); ?>"
+                            minlength: "<?php echo JTEXT::_("MOD_REGISTERLOGIN_PASSWORD_ERROR_START").$usersConfig->get('minimum_length').JTEXT::_("MOD_REGISTERLOGIN_PASSWORD_ERROR_END"); ?>"
                         }
                     },
                 });
