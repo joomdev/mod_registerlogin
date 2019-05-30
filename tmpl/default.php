@@ -34,8 +34,6 @@ $usersConfig = JComponentHelper::getParams( 'com_users' );
 $siteKey = $params->get('sitekey');
 $secret = $params->get('secretkey');
 $lang = 'en';
-
-
 ?>
     <link href="<?php echo JURI::root() .'modules/mod_registerlogin/tmpl/assets/registerlogin.css' ?>" type="text/css" rel="stylesheet" />
     <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=<?php echo $lang; ?>"></script>
@@ -73,6 +71,9 @@ $lang = 'en';
             <!-- End Tab  -->
             <div class="jd-register-login-box">
                 <div data-tab id="jd-login-container-<?php echo $module->id; ?>" class="jd-login-container">
+                    <h3 class="jd-form-title">
+                        <?php echo JText::_('MOD_REGISTERLOGIN_LOGINLEBEL'); ?>
+                    </h3>
                     <form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="login-form" name="josForm" class="form-validate form-horizontal">
                         <div class="jd-inputbox-control">
                             <?php if ($params->get('usetext')) : ?><label for=""><?php echo JText::_('COM_USERS_LOGIN_USERNAME_LABEL'); ?> </label>
@@ -82,11 +83,9 @@ $lang = 'en';
                         <div class="jd-inputbox-control">
                             <?php if ($params->get('usetext')) : ?><label for=""><?php echo JText::_('COM_USERS_PROFILE_PASSWORD1_LABEL'); ?> </label>
                             <?php endif; ?>
-                            <input value="" id="modlgn_passwd" type="password" name="password" class="jd-form-input required password" tabindex="0" size="18" placeholder="<?php  if(!$params->get('usetext')) { echo JText::_('COM_USERS_PROFILE_PASSWORD1_LABEL'); } ?>" required="true">
-                            <span class="jd-input-group-addon" onclick="previewpass()">
-                             <img src="modules/mod_registerlogin/tmpl/assets/images/eye-regular.svg" style="width:25px;" id="svgLoginId">
-
-                            <span class="showpass show" id="loginshowpass" aria-hidden="true"></span>
+                            <input value="" id="modlgn_passwd_<?php echo $module->id;?>" type="password" name="password" class="jd-form-input required password" tabindex="0" size="18" placeholder="<?php  if(!$params->get('usetext')) { echo JText::_('COM_USERS_PROFILE_PASSWORD1_LABEL'); } ?>" required="true">
+                            <span class="jd-input-group-addon" onclick="previewpass<?php echo $module->id;?>()">
+                                <span class="showpass" id="loginshowpass<?php echo $module->id;?>" aria-hidden="true"><?php echo JText::_('JSHOW') ?></span>
                             </span>
                         </div>
                         <div class="jd-inputbox-control jd-control-check-raido">
@@ -131,26 +130,25 @@ $lang = 'en';
                             <div class="jd-inputbox-control">
                                 <?php if ($params->get('usetext')) : ?><label for=""><?php echo JText::_('JGLOBAL_PASSWORD'); ?> </label>
                                 <?php endif; ?>
-                                <input tabindex="3" placeholder="<?php  if(!$params->get('usetext')) { echo JText::_('JGLOBAL_PASSWORD'); } ?>" class="jd-form-input required" type="password" id="jform_password1" name="jform[password1]" size="20" value="" required/>
+                                <input tabindex="3" placeholder="<?php  if(!$params->get('usetext')) { echo JText::_('JGLOBAL_PASSWORD'); } ?>" class="jd-form-input required" type="password" id="jform_password1<?php echo $module->id;?>" name="jform[password1]" size="20" value="" required/>
                             </div>
                             <div class="jd-inputbox-control">
                                 <?php if ($params->get('usetext')) : ?><label for=""><?php echo JText::_('COM_USERS_REGISTER_PASSWORD2_DESC'); ?> </label>
                                 <?php endif; ?>
-                                <input tabindex="4" placeholder="<?php if(!$params->get('usetext')) { echo JText::_('COM_USERS_REGISTER_PASSWORD2_DESC'); } ?>" data-rule-equalTo="#jform_password1" class="jd-form-input required" type="password" id="jform_password2" name="jform[password2]" size="20" value="" required/>
-                                <span class="jd-input-group-addon" onclick="previewpassonregister()">
-                                    <img src="modules/mod_registerlogin/tmpl/assets/images/eye-regular.svg" style="width:25px;" id="svgLoginRes">
-                                   
+                                <input tabindex="4" placeholder="<?php if(!$params->get('usetext')) { echo JText::_('COM_USERS_REGISTER_PASSWORD2_DESC'); } ?>" data-rule-equalTo="#jform_password1<?php echo $module->id;?>" class="jd-form-input required" type="password" id="jform_password2<?php echo $module->id;?>" name="jform[password2]" size="20" value="" required/>
+                                <span class="jd-input-group-addon" onclick="previewpassonregister<?php echo $module->id;?>()">
+                                    <span class="showpass" id="reghidepass<?php echo $module->id;?>" aria-hidden="true"><?php echo JText::_('JSHOW') ?></span>
                                 </span>
                             </div>
                             <div class="jd-inputbox-control">
                                 <?php if ($params->get('usetext')) : ?><label for=""><?php echo JText::_('COM_USERS_REGISTER_EMAIL1_DESC'); ?> </label>
                                 <?php endif; ?>
-                                <input tabindex="5" placeholder="<?php if(!$params->get('usetext')) { echo JText::_('COM_USERS_REGISTER_EMAIL1_DESC'); } ?>" type="email" id="jform_email1" name="jform[email1]" size="20" class="jd-form-input validate-email required email" required/>
+                                <input tabindex="5" placeholder="<?php if(!$params->get('usetext')) { echo JText::_('COM_USERS_REGISTER_EMAIL1_DESC'); } ?>" type="email" id="jform_email1<?php echo $module->id;?>" name="jform[email1]" size="20" class="jd-form-input validate-email required email" required/>
                             </div>
                             <div class="jd-inputbox-control">
                                 <?php if ($params->get('usetext')) : ?><label for=""><?php echo JText::_('COM_USERS_REGISTER_EMAIL2_DESC'); ?> </label>
                                 <?php endif; ?>
-                                <input tabindex="6" placeholder="<?php if(!$params->get('usetext')) { echo JText::_('COM_USERS_REGISTER_EMAIL2_DESC');} ?>" type="email" id="jform_email2" name="jform[email2]" size="20" class="jd-form-input required email" data-rule-equalTo="#jform_email1" required/>
+                                <input tabindex="6" placeholder="<?php if(!$params->get('usetext')) { echo JText::_('COM_USERS_REGISTER_EMAIL2_DESC');} ?>" type="email" id="jform_email2" name="jform[email2]" size="20" class="jd-form-input required email" data-rule-equalTo="#jform_email1<?php echo $module->id;?>" required/>
                             </div>
                             <div class="jd-inputbox-control">
                                 <?php if ($params->get('enablecap_on_register')) { ?>
@@ -199,52 +197,47 @@ $lang = 'en';
     <script>
         (function($) {
             $('#jd-logrig-module-<?php echo $module->id; ?>').jdRegisterLogin();
-            
+            <?php if(!$params->get('ajax_registration')){ ?>
                 $('#registration_form').validate({ // initialize the plugin
                     rules: {
-                        'jform[password1]': {
-                            minlength: <?php echo $usersConfig->get('minimum_length'); ?>
-                        },
-                        'jform_password2': {
-                            minlength: <?php echo $usersConfig->get('minimum_length'); ?>
+                        'terms[]': {
+                            required: true,
+                            maxlength: 2
                         }
                     },
                     messages: {
-                        'jform[password1]': {
-                            minlength: "<?php echo JTEXT::_("MOD_REGISTERLOGIN_PASSWORD_ERROR_START").$usersConfig->get('minimum_length').JTEXT::_("MOD_REGISTERLOGIN_PASSWORD_ERROR_END"); ?>"
-                        },
-                        'jform_password2': {
-                            minlength: "<?php echo JTEXT::_("MOD_REGISTERLOGIN_PASSWORD_ERROR_START").$usersConfig->get('minimum_length').JTEXT::_("MOD_REGISTERLOGIN_PASSWORD_ERROR_END"); ?>"
+                        'terms[]': {
+                            required: "You must check at least 1 box",
+                            maxlength: "Check no more than {0} boxes"
                         }
                     },
                 });
-           
+            <?php } ?>
         }(jQuery))
 
-        function previewpass() {
-            var login = document.getElementById("modlgn_passwd");
+        function previewpass<?php echo $module->id;?>() {
+            var login = document.getElementById("modlgn_passwd_<?php echo $module->id;?>");
            
             if (login.type === "password") {
                 login.type = "text";
-                document.getElementById("svgLoginId").src= "<?php echo JURI::ROOT();?>/modules/mod_registerlogin/tmpl/assets/images/eye-slash-regular.svg";
-
+                document.getElementById("loginshowpass<?php echo $module->id;?>").innerHTML = "<?php echo JText::_('JHIDE') ?>";
             } else {
                 login.type = "password";
-                document.getElementById("svgLoginId").src= "<?php echo JURI::ROOT();?>/modules/mod_registerlogin/tmpl/assets/images/eye-regular.svg";
+                document.getElementById("loginshowpass<?php echo $module->id;?>").innerHTML = "<?php echo JText::_('JSHOW') ?>";
             }
         }
 
-        function previewpassonregister() {
-            var pass1 = document.getElementById("jform_password1");
-            var pass2 = document.getElementById("jform_password2");
+        function previewpassonregister<?php echo $module->id;?>() {
+            var pass1 = document.getElementById("jform_password1<?php echo $module->id;?>");
+            var pass2 = document.getElementById("jform_password2<?php echo $module->id;?>");
             if ((pass1.type === "password") && (pass2.type === "password")) {
                 pass1.type = "text";
                 pass2.type = "text";
-                document.getElementById("svgLoginRes").src= "<?php echo JURI::ROOT();?>/modules/mod_registerlogin/tmpl/assets/images/eye-slash-regular.svg";
+                document.getElementById("reghidepass<?php echo $module->id;?>").innerHTML = "<?php echo JText::_('JHIDE') ?>";
             } else {
                 pass1.type = "password";
                 pass2.type = "password";
-                document.getElementById("svgLoginRes").src= "<?php echo JURI::ROOT();?>/modules/mod_registerlogin/tmpl/assets/images/eye-regular.svg";
+                document.getElementById("reghidepass<?php echo $module->id;?>").innerHTML = "<?php echo JText::_('JSHOW') ?>";
             }
         }
     </script>
