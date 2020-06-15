@@ -34,8 +34,10 @@ $usersConfig = JComponentHelper::getParams( 'com_users' );
 $siteKey = $params->get('sitekey');
 $secret = $params->get('secretkey');
 $lang = 'en';
+
+$document->addStyleSheet(JURI::root() .'modules/mod_registerlogin/tmpl/assets/registerlogin.css');
+ 
 ?>
-    <link href="<?php echo JURI::root() .'modules/mod_registerlogin/tmpl/assets/registerlogin.css' ?>" type="text/css" rel="stylesheet" />
     <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=<?php echo $lang; ?>"></script>
     <script type="text/javascript" src="<?php echo JURI::root() .'modules/mod_registerlogin/tmpl/assets/jquery.registerloginplugin.js'?>"></script>
     <div id="error_message1">
