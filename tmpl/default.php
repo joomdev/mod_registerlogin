@@ -38,8 +38,8 @@ $lang = 'en';
 $document->addStyleSheet(JURI::root() .'modules/mod_registerlogin/tmpl/assets/registerlogin.css');
  
 ?>
-    <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=<?php echo $lang; ?>"></script>
-    <script type="text/javascript" src="<?php echo JURI::root() .'modules/mod_registerlogin/tmpl/assets/jquery.registerloginplugin.js'?>"></script>
+    <script src="https://www.google.com/recaptcha/api.js?hl=<?php echo $lang; ?>"></script>
+    <script src="<?php echo JURI::root() .'modules/mod_registerlogin/tmpl/assets/jquery.registerloginplugin.js'?>"></script>
     <div id="error_message1">
         <?php if($errorMessage){ ?>
         <div class="alert alert-error"><a data-dismiss="alert" class="close">x</a>
@@ -78,20 +78,20 @@ $document->addStyleSheet(JURI::root() .'modules/mod_registerlogin/tmpl/assets/re
                     </h3>
                     <form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="login-form" name="josForm" class="form-validate form-horizontal">
                         <div class="jd-inputbox-control">
-                            <?php if ($params->get('usetext')) : ?><label for=""><?php echo JText::_('COM_USERS_LOGIN_USERNAME_LABEL'); ?> </label>
+                            <?php if ($params->get('usetext')) : ?><label><?php echo JText::_('COM_USERS_LOGIN_USERNAME_LABEL'); ?> </label>
                             <?php endif; ?>
-                            <input type="text" id="modlgn-username" name="username" class="jd-form-input required" value="" tabindex="0" size="18" placeholder="<?php  if(!$params->get('usetext')) { echo JText::_('COM_USERS_LOGIN_USERNAME_LABEL'); } ?>" required="true">
+                            <input type="text" id="modlgn-username" name="username" class="jd-form-input required" value="" tabindex="0" size="18" placeholder="<?php  if(!$params->get('usetext')) { echo JText::_('COM_USERS_LOGIN_USERNAME_LABEL'); } ?>" required>
                         </div>
                         <div class="jd-inputbox-control">
-                            <?php if ($params->get('usetext')) : ?><label for=""><?php echo JText::_('COM_USERS_PROFILE_PASSWORD1_LABEL'); ?> </label>
+                            <?php if ($params->get('usetext')) : ?><label><?php echo JText::_('COM_USERS_PROFILE_PASSWORD1_LABEL'); ?> </label>
                             <?php endif; ?>
-                            <input value="" id="modlgn_passwd" type="password" name="password" class="jd-form-input required password" tabindex="0" size="18" placeholder="<?php  if(!$params->get('usetext')) { echo JText::_('COM_USERS_PROFILE_PASSWORD1_LABEL'); } ?>" required="true">
+                            <input value="" id="modlgn_passwd" type="password" name="password" class="jd-form-input required password" tabindex="0" size="18" placeholder="<?php  if(!$params->get('usetext')) { echo JText::_('COM_USERS_PROFILE_PASSWORD1_LABEL'); } ?>" required>
                             <span class="jd-input-group-addon" onclick="previewpass()">
                                 <span class="showpass" id="loginshowpass" aria-hidden="true"><?php echo JText::_('JSHOW') ?></span>
                             </span>
                         </div>
                         <div class="jd-inputbox-control jd-control-check-raido">
-                            <?php if (JPluginHelper::isEnabled('system', 'remember')) : ?><label for=""><input type="checkbox" name="remember" class="jd-form-checkbox-radio" value="yes"><?php echo JText::_('COM_USERS_LOGIN_REMEMBER_ME') ?></label>
+                            <?php if (JPluginHelper::isEnabled('system', 'remember')) : ?><label><input type="checkbox" name="remember" class="jd-form-checkbox-radio" value="yes"><?php echo JText::_('COM_USERS_LOGIN_REMEMBER_ME') ?></label>
                             <?php endif; ?>
                         </div>
                         <div class="jd-button-control">
@@ -118,24 +118,24 @@ $document->addStyleSheet(JURI::root() .'modules/mod_registerlogin/tmpl/assets/re
                 
                   <div data-tab id="jd-register-container-<?php echo $module->id; ?>" class="jd-register-container">
                       <?php if ($usersConfig->get('allowUserRegistration')) { ?>
-                        <form action="" method="post" id="registration_form" name="josForm" class="form-validate form-horizontal">
+                        <form method="post" id="registration_form" name="josForm" class="form-validate form-horizontal">
                             <div class="jd-inputbox-control">
-                                <?php if ($params->get('usetext')) : ?><label for=""><?php echo JText::_('COM_USERS_REGISTER_NAME_LABEL'); ?> </label>
+                                <?php if ($params->get('usetext')) : ?><label><?php echo JText::_('COM_USERS_REGISTER_NAME_LABEL'); ?> </label>
                                 <?php endif; ?>
                                 <input tabindex="1" placeholder="<?php if(!$params->get('usetext')) { echo JText::_('COM_USERS_REGISTER_NAME_LABEL'); } ?>" type="text" name="jform[name]" id="jform_name" size="20" class="jd-form-input required" required/>
                             </div>
                             <div class="jd-inputbox-control">
-                                <?php if ($params->get('usetext')) : ?><label for=""><?php echo JText::_('JGLOBAL_USERNAME'); ?> </label>
+                                <?php if ($params->get('usetext')) : ?><label><?php echo JText::_('JGLOBAL_USERNAME'); ?> </label>
                                 <?php endif; ?>
                                 <input tabindex="2" type="text" placeholder="<?php if(!$params->get('usetext')) { echo JText::_('JGLOBAL_USERNAME'); } ?>" id="jform_username" name="jform[username]" size="20" class="jd-form-input required" required/>
                             </div>
                             <div class="jd-inputbox-control">
-                                <?php if ($params->get('usetext')) : ?><label for=""><?php echo JText::_('JGLOBAL_PASSWORD'); ?> </label>
+                                <?php if ($params->get('usetext')) : ?><label><?php echo JText::_('JGLOBAL_PASSWORD'); ?> </label>
                                 <?php endif; ?>
                                 <input tabindex="3" placeholder="<?php  if(!$params->get('usetext')) { echo JText::_('JGLOBAL_PASSWORD'); } ?>" class="jd-form-input required" type="password" id="jform_password1" name="jform[password1]" size="20" value="" required/>
                             </div>
                             <div class="jd-inputbox-control">
-                                <?php if ($params->get('usetext')) : ?><label for=""><?php echo JText::_('COM_USERS_REGISTER_PASSWORD2_DESC'); ?> </label>
+                                <?php if ($params->get('usetext')) : ?><label><?php echo JText::_('COM_USERS_REGISTER_PASSWORD2_DESC'); ?> </label>
                                 <?php endif; ?>
                                 <input tabindex="4" placeholder="<?php if(!$params->get('usetext')) { echo JText::_('COM_USERS_REGISTER_PASSWORD2_DESC'); } ?>" data-rule-equalTo="#jform_password1" class="jd-form-input required" type="password" id="jform_password2" name="jform[password2]" size="20" value="" required/>
                                 <span class="jd-input-group-addon" onclick="previewpassonregister()">
@@ -143,19 +143,19 @@ $document->addStyleSheet(JURI::root() .'modules/mod_registerlogin/tmpl/assets/re
                                 </span>
                             </div>
                             <div class="jd-inputbox-control">
-                                <?php if ($params->get('usetext')) : ?><label for=""><?php echo JText::_('COM_USERS_REGISTER_EMAIL1_DESC'); ?> </label>
+                                <?php if ($params->get('usetext')) : ?><label><?php echo JText::_('COM_USERS_REGISTER_EMAIL1_DESC'); ?> </label>
                                 <?php endif; ?>
                                 <input tabindex="5" placeholder="<?php if(!$params->get('usetext')) { echo JText::_('COM_USERS_REGISTER_EMAIL1_DESC'); } ?>" type="email" id="jform_email1" name="jform[email1]" size="20" class="jd-form-input validate-email required email" required/>
                             </div>
                             <div class="jd-inputbox-control">
-                                <?php if ($params->get('usetext')) : ?><label for=""><?php echo JText::_('COM_USERS_REGISTER_EMAIL2_DESC'); ?> </label>
+                                <?php if ($params->get('usetext')) : ?><label><?php echo JText::_('COM_USERS_REGISTER_EMAIL2_DESC'); ?> </label>
                                 <?php endif; ?>
                                 <input tabindex="6" placeholder="<?php if(!$params->get('usetext')) { echo JText::_('COM_USERS_REGISTER_EMAIL2_DESC');} ?>" type="email" id="jform_email2" name="jform[email2]" size="20" class="jd-form-input required email" data-rule-equalTo="#jform_email1" required/>
                             </div>
                             <div class="jd-inputbox-control">
                                 <?php if ($params->get('enablecap_on_register')) { ?>
                                 <?php if ($params->get('usetext')) : ?>
-                                <label for="">Captcha </label>
+                                <label>Captcha </label>
                                 <?php endif; ?>
                                 <?php
                             if($siteKey){ ?>
@@ -168,8 +168,8 @@ $document->addStyleSheet(JURI::root() .'modules/mod_registerlogin/tmpl/assets/re
                             </div>
                             <?php  if ($params->get('tou')) { ?>
                             <div class="jd-inputbox-control jd-control-check-raido">
-                                <label for="" class="" >
-                            <input name="terms" class="required" type="checkbox" <?php if($params->get('checkbox')) { echo "checked='checked'"; } ?>  id="tou" required="true"/> &nbsp 
+                                <label>
+                            <input name="terms" class="required" type="checkbox" <?php if($params->get('checkbox')) { echo "checked='checked'"; } ?>  id="tou" required /> &nbsp; 
                             <?php if($params->get('newwindow') == 'modal'){  ?>
                             <a href="<?php echo JURI::root(); ?>index.php?option=com_content&view=article&id=<?php echo $params->get('articleid') ?>&tmpl=component" rel="{handler:'iframe', size:{x:1000,y:700}}" class="modal jd-modal-link"><?php echo $title = $params->get('title') ? $params->get('title') : "I Agree to the Terms of Use"; ?></a>
                             <?php } else {  ?>
@@ -179,7 +179,7 @@ $document->addStyleSheet(JURI::root() .'modules/mod_registerlogin/tmpl/assets/re
                             </div>
                             <?php } ?>
                             <div class="jd-button-control">
-                                <button type="submit" id="register_submit" name="Submit" class="jd-form-button validate"><?php echo JText::_('JREGISTER') ?> <img src="<?php echo JURI::root(); ?>/modules/mod_registerlogin/tmpl/assets/loader.gif" class="regload" style="display:none;" /></button>
+                                <button type="submit" id="register_submit" name="Submit" class="jd-form-button validate"><?php echo JText::_('JREGISTER') ?> <img src="<?php echo JURI::root(); ?>/modules/mod_registerlogin/tmpl/assets/loader.gif" alt="Loading" class="regload" style="display:none;" /></button>
                                 <input type="hidden" value="register" name="module<?php echo $module->id; ?>">
                                 <input type="hidden" value="" name="openview" id="openview">
                                 <?php echo JHTML::_('form.token'); ?>
