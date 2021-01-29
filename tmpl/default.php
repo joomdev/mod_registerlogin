@@ -8,9 +8,11 @@
 defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.tooltip');
-$type = 'mootools-core.js';
-JHTML::_('behavior.modal');
-JHtml::_('behavior.framework', $type);
+if (JVERSION < 4) {
+    $type = 'mootools-core.js';
+    JHTML::_('behavior.modal');
+    JHtml::_('behavior.framework', $type);
+}
 $document  = JFactory::getDocument();
 $itemId = JFactory::getApplication()->getMenu()->getActive()->id;
 $document->addScriptDeclaration('var itemId = "'.$itemId .'";    ');
