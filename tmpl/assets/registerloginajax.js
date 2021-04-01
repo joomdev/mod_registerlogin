@@ -19,7 +19,15 @@ jQuery(document).ready(function () {
 			jQuery('#registration_ input#openview').val(jQuery(this).val());
 		}
 	});
+	
+	
 	jQuery("#registration_form").validate({
+				rules: {
+				 	'jform[username]': {
+						required: true,
+						noSpecialChars:true
+					}
+				},
 		submitHandler: function () {
 			var submit = jQuery('#register_submit');
 			jQuery.ajax({
@@ -70,4 +78,9 @@ jQuery(document).ready(function () {
 			return false;
 		}
 	});
+	
+	jQuery.validator.addMethod("noSpecialChars", function(value, element) {
+				return this.optional(element) || /^[a-z0-9]+$/i.test(value);
+			}, "Only letters and numbers allowed."); 
+	
 });

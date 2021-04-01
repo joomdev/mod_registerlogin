@@ -207,7 +207,11 @@ $document->addStyleSheet(JURI::root() .'modules/mod_registerlogin/tmpl/assets/re
                         'terms[]': {
                             required: true,
                             maxlength: 2
-                        }
+                        },
+						'jform[username]': {
+							required: true,
+							noSpecialChars:true
+						}
                     },
                     messages: {
                         'terms[]': {
@@ -217,6 +221,12 @@ $document->addStyleSheet(JURI::root() .'modules/mod_registerlogin/tmpl/assets/re
                     },
                 });
             <?php } ?>
+			
+			jQuery.validator.addMethod("noSpecialChars", function(value, element) {
+				return this.optional(element) || /^[a-z0-9]+$/i.test(value);
+			}, "Only letters and numbers allowed."); 
+			
+			
         }(jQuery))
 
         function previewpass() {
