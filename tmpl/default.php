@@ -190,7 +190,7 @@ $document->addStyleSheet(JURI::root() .'modules/mod_registerlogin/tmpl/assets/re
 
                      <?php }else{ ?>
                         <div class="alert alert-warning m-2 p-2">
-                            <strong><?php echo JText::_('WARNING'); ?></strong><?php echo JText::_('MOD_REGISTERLOGIN_NOT_ALLWED'); ?>
+                            <strong><?php echo JText::_('WARNING'); ?></strong> <?php echo JText::_('MOD_REGISTERLOGIN_NOT_ALLWED'); ?>
                         </div>
                      <?php } ?>
                   </div>
